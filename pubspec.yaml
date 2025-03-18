@@ -11,11 +11,11 @@ topics:
   - slide-out
 
 environment:
-  sdk: ^3.7.0
-  flutter: ">=3.29.0"
+  sdk: ">=2.19.6 <4.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
-  extended_image_library: ^5.0.0
+  extended_image_library: any
   flutter:
     sdk: flutter
   meta: ^1.7.0

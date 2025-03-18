@@ -124,7 +124,7 @@ class ExtendedImageCropLayerState extends State<ExtendedImageCropLayer>
         cornerSize: editConfig.cornerSize,
         lineColor:
             editConfig.lineColor ??
-            Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.7),
+            Theme.of(context).scaffoldBackgroundColor,
         lineHeight: editConfig.lineHeight,
         maskColor: maskColor,
         pointerDown: _pointerDown,

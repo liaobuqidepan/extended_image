@@ -113,7 +113,7 @@ Rect getDestinationRect({
 Color defaultEditorMaskColorHandler(BuildContext context, bool pointerDown) {
   return Theme.of(
     context,
-  ).scaffoldBackgroundColor.withValues(alpha: (pointerDown ? 0.4 : 0.8));
+  ).scaffoldBackgroundColor;
 }
 
 /// `InitCropRectType` specifies how the initial crop rectangle should be defined.

@@ -588,7 +588,7 @@ Color defaultSlidePageBackgroundHandler({
   } else if (pageGestureAxis == SlideAxis.vertical) {
     opacity = offset.dy.abs() / (pageSize.height / 2.0);
   }
-  return color.withValues(alpha: min(1.0, max(1.0 - opacity, 0.0)));
+  return color;
 }
 
 bool defaultSlideEndHandler({

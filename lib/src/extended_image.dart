@@ -505,8 +505,8 @@ class ExtendedImage extends StatefulWidget {
     String? imageCacheName,
     Duration? cacheMaxAge,
     this.layoutInsets = EdgeInsets.zero,
-    WebHtmlElementStrategy webHtmlElementStrategy =
-        WebHtmlElementStrategy.never,
+    // WebHtmlElementStrategy webHtmlElementStrategy =
+    //     WebHtmlElementStrategy.never,
   }) : assert(cacheWidth == null || cacheWidth > 0),
        assert(cacheHeight == null || cacheHeight > 0),
        image = ExtendedResizeImage.resizeIfNeeded(
@@ -524,7 +524,7 @@ class ExtendedImage extends StatefulWidget {
            cacheRawData: cacheRawData,
            imageCacheName: imageCacheName,
            cacheMaxAge: cacheMaxAge,
-           webHtmlElementStrategy: webHtmlElementStrategy,
+           //webHtmlElementStrategy: webHtmlElementStrategy,
          ),
          compressionRatio: compressionRatio,
          maxBytes: maxBytes,

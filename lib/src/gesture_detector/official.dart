@@ -32,7 +32,7 @@ enum _DragDirection { horizontal, vertical }
 ///  * [HorizontalDragGestureRecognizer], for left and right drags.
 ///  * [VerticalDragGestureRecognizer], for up and down drags.
 ///  * [PanGestureRecognizer], for drags that are not locked to a single axis.
-sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
+ class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
   /// Initialize the object.
   ///
   /// {@macro flutter.gestures.GestureRecognizer.supportedDevices}
@@ -290,7 +290,10 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
   /// A fling calls its gesture end callback with a velocity, allowing the
   /// provider of the callback to respond by carrying the gesture forward with
   /// inertia, for example.
-  bool isFlingGesture(VelocityEstimate estimate, PointerDeviceKind kind);
+  bool isFlingGesture(VelocityEstimate estimate, PointerDeviceKind kind) {
+    // TODO: implement isFlingGesture
+    throw UnimplementedError();
+  }
 
   /// Determines if a gesture is a fling or not, and if so its effective velocity.
   ///
@@ -300,7 +303,10 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
   DragEndDetails? considerFling(
     VelocityEstimate estimate,
     PointerDeviceKind kind,
-  );
+  ) {
+    // TODO: implement considerFling
+    throw UnimplementedError();
+  }
 
   /// Returns the effective delta that should be considered for the incoming [delta].
   ///
@@ -310,7 +316,10 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
   ///
   /// For example, a [VerticalDragGestureRecognizer], would return an [Offset]
   /// with the x component set to 0.0, because it only cares about the y component.
-  Offset _getDeltaForDetails(Offset delta);
+  Offset _getDeltaForDetails(Offset delta) {
+    // TODO: implement _getDeltaForDetails
+    throw UnimplementedError();
+  }
 
   /// Returns the value for the primary axis from the given [value].
   ///
@@ -319,7 +328,10 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
   /// the x component.
   ///
   /// Returns `null` if the recognizer does not have a primary axis.
-  double? _getPrimaryValueFromOffset(Offset value);
+  double? _getPrimaryValueFromOffset(Offset value) {
+    // TODO: implement _getPrimaryValueFromOffset
+    throw UnimplementedError();
+  }
 
   /// The axis (horizontal or vertical) corresponding to the primary drag direction.
   ///
@@ -332,7 +344,10 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
   bool hasSufficientGlobalDistanceToAccept(
     PointerDeviceKind pointerDeviceKind,
     double? deviceTouchSlop,
-  );
+  ) {
+    // TODO: implement hasSufficientGlobalDistanceToAccept
+    throw UnimplementedError();
+  }
   bool _hasDragThresholdBeenMet = false;
 
   final Map<int, VelocityTracker> _velocityTrackers = <int, VelocityTracker>{};
@@ -382,6 +397,7 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
         _lastPendingEventTimestamp = event.timeStamp;
         _lastTransform = event.transform;
         _checkDown();
+        break;
       case _DragState.possible:
         break;
       case _DragState.accepted:
@@ -414,6 +430,7 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
       case MultitouchDragStrategy.sumAllPointers:
       case MultitouchDragStrategy.averageBoundaryPointers:
         result = true;
+        break;
       case MultitouchDragStrategy.latestPointer:
         result = _activePointer == null || pointer == _activePointer;
     }
@@ -648,11 +665,7 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
             event is PointerMoveEvent ||
             event is PointerPanZoomStartEvent ||
             event is PointerPanZoomUpdateEvent)) {
-      final Offset position = switch (event) {
-        PointerPanZoomStartEvent() => Offset.zero,
-        PointerPanZoomUpdateEvent() => event.pan,
-        _ => event.localPosition,
-      };
+      final Offset position = Offset.zero;
       _velocityTrackers[event.pointer]!.addPosition(event.timeStamp, position);
     }
     if (event is PointerMoveEvent && event.buttons != _initialButtons) {
@@ -684,7 +697,8 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
         localDelta,
       );
       switch (_state) {
-        case _DragState.ready || _DragState.possible:
+        case _DragState.possible:
+        case _DragState.ready :
           _pendingDragOffset += OffsetPair(local: localDelta, global: delta);
           _lastPendingEventTimestamp = event.timeStamp;
           _lastTransform = event.transform;
@@ -711,6 +725,7 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
               resolve(GestureDisposition.accepted);
             }
           }
+          break;
         case _DragState.accepted:
           _checkUpdate(
             sourceTimeStamp: event.timeStamp,
@@ -719,13 +734,18 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
             globalPosition: position,
             localPosition: localPosition,
           );
+          break;
+        case _DragState.ready:
+          // TODO: Handle this case.
+          break;
+        case _DragState.possible:
+          // TODO: Handle this case.
+          break;
       }
       _recordMoveDeltaForMultitouch(event.pointer, localDelta);
     }
     if (event
-        case PointerUpEvent() ||
-            PointerCancelEvent() ||
-            PointerPanZoomEndEvent()) {
+        == PointerUpEvent()){
       _giveUpPointer(event.pointer);
     }
   }
@@ -763,6 +783,7 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
       case _DragState.possible:
         resolve(GestureDisposition.rejected);
         _checkCancel();
+        break;
 
       case _DragState.accepted:
         _checkEnd(pointer);
@@ -813,6 +834,7 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
       case DragStartBehavior.start:
         _initialPosition = _initialPosition + delta;
         localUpdateDelta = Offset.zero;
+        break;
       case DragStartBehavior.down:
         localUpdateDelta = _getDeltaForDetails(delta.local);
     }
@@ -932,6 +954,10 @@ sealed class _DragGestureRecognizer extends OneSequenceGestureRecognizer {
       EnumProperty<DragStartBehavior>('start behavior', dragStartBehavior),
     );
   }
+
+  @override
+  // TODO: implement debugDescription
+  String get debugDescription => throw UnimplementedError();
 }
 
 /// Recognizes movement in the vertical direction.
