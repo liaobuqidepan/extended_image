@@ -112,7 +112,7 @@ class GestureDetails {
   ///from
   Rect? rawDestinationRect;
 
-  final InitialAlignment? initialAlignment;
+  InitialAlignment? initialAlignment;
 
   ///slide page offset
   Offset? slidePageOffset;
